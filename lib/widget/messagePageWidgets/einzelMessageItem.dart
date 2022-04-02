@@ -3,18 +3,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:messenger/domain/chat.dart';
 import 'package:messenger/domain/user.dart';
+import 'package:messenger/provider/userProvider.dart';
+import 'package:provider/provider.dart';
 
 class EinzelMessageItem extends StatelessWidget {
   Chat einzelChat;
   int einzelMessageIndex;
-  User currentUser = User("user1", "pass1",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Ocelot_%28Jaguatirica%29_Zoo_Itatiba.jpg/330px-Ocelot_%28Jaguatirica%29_Zoo_Itatiba.jpg");
   double _userPicWidth = 60;
 
   EinzelMessageItem(this.einzelChat, this.einzelMessageIndex);
 
   @override
   Widget build(BuildContext context) {
+    User currentUser = Provider.of<UserProvider>(context).currentUser;
     var size = MediaQuery.of(context).size;
     bool myMsg = einzelChat.allMessages[einzelMessageIndex].user.username ==
         currentUser.username;

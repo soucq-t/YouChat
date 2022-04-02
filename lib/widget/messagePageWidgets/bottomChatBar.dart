@@ -5,6 +5,7 @@ import 'package:messenger/domain/chat.dart';
 import 'package:messenger/domain/message.dart';
 import 'package:messenger/domain/user.dart';
 import 'package:messenger/provider/chatsProvider.dart';
+import 'package:messenger/provider/userProvider.dart';
 import 'package:provider/provider.dart';
 
 class BottomChatBar extends StatefulWidget {
@@ -64,6 +65,8 @@ class _BottomChatBarState extends State<BottomChatBar> {
     var textFieldBorder = OutlineInputBorder(
       borderSide: BorderSide(color: Colors.white, width: 0),
     );
+    User currentUser = Provider.of<UserProvider>(context).currentUser;
+
 
     return Container(
         height: widget.maxWidth * 0.15,
@@ -100,7 +103,7 @@ class _BottomChatBarState extends State<BottomChatBar> {
                 onSubmitted: (value) {
                   if(value!=null && !(value.isEmpty)){
                     widget.einzelChat.allMessages
-                        .add(new Message(value, DateTime.now(),User("user1","pass1","https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Feather.svg/330px-Feather.svg.png")));
+                        .add(new Message(value, DateTime.now(),currentUser));
                     chatController.clear();
                   }
                 },

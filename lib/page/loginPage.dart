@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:messenger/page/mainPage.dart';
+import 'package:messenger/provider/pageProvider.dart';
 import 'package:messenger/provider/userProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -9,9 +11,13 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
-    var _formKey = GlobalKey<FormState>();
-    var userNameController = TextEditingController();
-    var userPassController = TextEditingController();
+    var userNameController = TextEditingController(text: "user1");
+    userNameController.selection = TextSelection.fromPosition(
+        TextPosition(offset: userNameController.text.length));
+    var userPassController = TextEditingController(text: "pass1");
+    userPassController.selection = TextSelection.fromPosition(
+        TextPosition(offset: userPassController.text.length));
+
     var userProvider = Provider.of<UserProvider>(context);
 
     return Scaffold(
@@ -21,6 +27,26 @@ class LoginPage extends StatelessWidget {
       child: Stack(
         alignment: AlignmentDirectional.center,
         children: [
+          /* Positioned(
+            top: screenSize.height * 0.8,
+            width: screenSize.width * 0.7,
+            child: TextFormField(
+              controller: userPassController,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some Text';
+                }
+                return null;
+              },
+              style: TextStyle(fontSize: 20),
+              decoration: InputDecoration(
+                labelText: "Password",
+              ),
+            ),
+          ),
+
+          */
+
           Positioned(
               top: screenSize.height * 0.05,
               left: screenSize.width / 2 - screenSize.width * 0.9 / 2 - 50,
@@ -54,44 +80,34 @@ class LoginPage extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: screenSize.height * 0.51,
+            top: screenSize.height * 0.51, //0.51
             child: Container(
               width: screenSize.width * 0.7,
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    Container(
-                      width: screenSize.width * 0.7,
-                      margin: EdgeInsets.only(bottom: 20),
-                      child: TextFormField(
-                        controller: userNameController,
-                        style: TextStyle(fontSize: 20),
-                        onSaved: (_)=> print('ok'),
-                        decoration: InputDecoration(
-                          labelText: "Username",
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: screenSize.width * 0.7,
-                      child: TextFormField(
-                        controller: userPassController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter some Text';
-                          }
-                          return null;
-                        },
-                        style: TextStyle(fontSize: 20),
-                        decoration: InputDecoration(
-                          labelText: "Password",
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+              child: TextField(
+                cursorColor: Colors.black,
+                controller: userNameController,
+                style: TextStyle(fontSize: 20),
+                decoration: InputDecoration(
+                    labelText: "Username",
+                    labelStyle: TextStyle(color: Colors.grey),
+                    focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black))),
               ),
+            ),
+          ),
+          Positioned(
+            top: screenSize.height * 0.6, //0.51
+            width: screenSize.width * 0.7,
+            child: TextField(
+              cursorColor: Colors.black,
+              controller: userPassController,
+              obscureText: true,
+              style: TextStyle(fontSize: 20),
+              decoration: InputDecoration(
+                  labelText: "Password",
+                  labelStyle: TextStyle(color: Colors.grey),
+                  focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black))),
             ),
           ),
           Positioned(
@@ -111,11 +127,20 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  userProvider.validUser(userNameController.text, userPassController.text);
+                  if (userProvider.validUser(
+                      userNameController.text, userPassController.text)) {
+                    print('ok');
+                    Provider.of<PageProvider>(context,listen: false).setPageIndex(0);
+                    Navigator.of(context).popAndPushNamed(MainPage.route);
+                  } else {
+                    print('not');
+                  }
+                  ;
                 },
               ),
             ),
           ),
+
         ],
       ),
     ));

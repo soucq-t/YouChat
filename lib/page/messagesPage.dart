@@ -6,13 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:messenger/domain/chat.dart';
 import 'package:messenger/domain/message.dart';
+import 'package:messenger/page/chatDetail.dart';
 import 'package:messenger/provider/chatsProvider.dart';
 import 'package:messenger/widget/messagePageWidgets/bottomChatBar.dart';
 import 'package:messenger/widget/messagePageWidgets/einzelMessageItem.dart';
 import 'package:provider/provider.dart';
 
 class MessagePage extends StatelessWidget {
-  static var route = 'all-messages-page';
+  static var route = 'messages-page';
   @override
   Widget build(BuildContext context) {
     var chat = ModalRoute.of(context)?.settings.arguments as Chat;
@@ -23,7 +24,7 @@ class MessagePage extends StatelessWidget {
         title: Center(child: Text(chat.chatName)),
         actions: [
           IconButton(
-            onPressed: () => print('okk'),
+            onPressed: () =>Navigator.of(context).pushNamed(ChatDetail.route,arguments: chat),
             icon: Icon(Icons.more_horiz),
           ),
         ],

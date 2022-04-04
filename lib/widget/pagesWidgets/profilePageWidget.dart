@@ -86,7 +86,7 @@ class ProfilePageWidget extends StatelessWidget {
                     width: size.width * 0.4,
                     child: ElevatedButton(
                       onPressed: () => print('pressedButton'),
-                      child: Text("Change Profile"),
+                      child: Text("Change Profile",style: TextStyle(color: Colors.white),),
                       style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all<Color>(Colors.black87),
@@ -99,7 +99,7 @@ class ProfilePageWidget extends StatelessWidget {
                   child: Container(
                     width: size.width * 0.25,
                     child: ElevatedButton(
-                      child: Text("Log out"),
+                      child: Text("Log out",),
                       onPressed: () {
                         showDialog(
                           context: context,

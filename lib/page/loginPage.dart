@@ -46,7 +46,6 @@ class LoginPage extends StatelessWidget {
           ),
 
           */
-
           Positioned(
               top: screenSize.height * 0.05,
               left: screenSize.width / 2 - screenSize.width * 0.9 / 2 - 50,
@@ -123,7 +122,7 @@ class LoginPage extends StatelessWidget {
                   padding: EdgeInsets.only(top: 8, bottom: 8),
                   child: Text(
                     "Login",
-                    style: TextStyle(fontSize: 33),
+                    style: TextStyle(fontSize: 33,color: Colors.white),
                   ),
                 ),
                 onPressed: () {

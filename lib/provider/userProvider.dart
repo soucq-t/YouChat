@@ -8,6 +8,10 @@ class UserProvider with ChangeNotifier {
     User("user2", "pass1",
         "https://upload.wikimedia.org/wikipedia/en/2/28/Pok%C3%A9mon_Bulbasaur_art.png"),
     User("user3", "pass1",
+        "https://upload.wikimedia.org/wikipedia/en/5/59/Pok%C3%A9mon_Squirtle_art.png"),
+    User("user4", "pass1",
+        "https://upload.wikimedia.org/wikipedia/en/5/59/Pok%C3%A9mon_Squirtle_art.png"),
+    User("user5", "pass1",
         "https://upload.wikimedia.org/wikipedia/en/5/59/Pok%C3%A9mon_Squirtle_art.png")
   ];
   late User _currentUser;

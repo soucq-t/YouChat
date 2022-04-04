@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:messenger/page/chatDetail.dart';
 import 'package:messenger/page/loginPage.dart';
 import 'package:messenger/page/mainPage.dart';
 import 'package:messenger/page/messagesPage.dart';
 import 'package:messenger/provider/chatsProvider.dart';
 import 'package:messenger/provider/pageProvider.dart';
 import 'package:messenger/provider/userProvider.dart';
+import 'package:messenger/widget/pagesWidgets/profilePageWidget.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -26,13 +28,16 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.grey,
+
+
         ),
         initialRoute: LoginPage.route,
         routes: {
           MainPage.route: (_) => MainPage(),
           MessagePage.route: (_) => MessagePage(),
           LoginPage.route: (_) => LoginPage(),
+          ChatDetail.route:(_) => ChatDetail(),
         },
       ),
     );

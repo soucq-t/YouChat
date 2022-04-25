@@ -21,6 +21,7 @@ class MessagePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Center(child: Text(chat.chatName)),
         actions: [
           IconButton(

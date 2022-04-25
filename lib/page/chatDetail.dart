@@ -48,16 +48,23 @@ class ChatDetail extends StatelessWidget {
         title: Text("Details"),
       ),
       body: Container(
+        color: Colors.grey,
         padding: EdgeInsets.all(5),
         child: Column(
           children: [
             Container(
-              height: 200,
+              width: 50,
               color: Colors.red,
-              child: Container(
-                //TODO
-              ),
+              child: Image.network(chat.picUrl),
             ),
+            Container(
+              color: Colors.red,
+              child: Text(chat.chatName),
+            ),
+            Container(
+              color: Colors.red,
+            ),
+
             Expanded(
               child: ListView.builder(
                 itemBuilder: (context, index) {
@@ -83,8 +90,8 @@ class ChatDetail extends StatelessWidget {
                       ),
                       trailing: Container(
                           width: size.width * 0.25,
-                          child: chat.allUsers
-                                  .contains(userProvider.allUsers[index])
+                          child: chat.allUserNames
+                                  .contains(userProvider.allUsers[index].username)
                               ? IconButton(
                                   icon:
                                       Icon(Icons.check_circle_outline_outlined),

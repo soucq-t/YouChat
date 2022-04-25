@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:messenger/domain/user.dart';
+import 'package:messenger/provider/chatsProvider.dart';
+import 'package:messenger/provider/userProvider.dart';
+import 'package:provider/provider.dart';
 
 class TopBar extends StatelessWidget {
   final double popupItemSize = 150;
@@ -8,12 +12,12 @@ class TopBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        IconButton(onPressed: () => print('loop'), icon: Icon(Icons.search)),
+        IconButton(onPressed: () => Provider.of<ChatsProvider>(context,listen: false).loadAllChats(), icon: Icon(Icons.search)),
         PopupMenuButton(
           icon: Icon(Icons.add_circle),
           itemBuilder: (context) => [
             PopupMenuItem(
-              child: Container(
+              child: SizedBox(
                 width: popupItemSize,
                 child: Row(
                   children: [
@@ -28,7 +32,7 @@ class TopBar extends StatelessWidget {
                   ],
                 ),
               ),
-              onTap: () => print('AddFreinds'),
+              onTap: () => Provider.of<UserProvider>(context,listen: false).addUser(User("tommy","tommy","https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Pig_farm_Vampula_9.jpg/450px-Pig_farm_Vampula_9.jpg")),
             ),
             PopupMenuItem(
               child: Container(
@@ -40,7 +44,7 @@ class TopBar extends StatelessWidget {
                       color: Colors.black,
                     ),
                     SizedBox(
-                      width: 10,
+                      width: 2,
                     ),
                     Text("Add Group Chat"),
                   ],

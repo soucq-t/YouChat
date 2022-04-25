@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
 import 'package:messenger/domain/user.dart';
 
 class UserProvider with ChangeNotifier {
@@ -15,6 +18,7 @@ class UserProvider with ChangeNotifier {
         "https://upload.wikimedia.org/wikipedia/en/5/59/Pok%C3%A9mon_Squirtle_art.png")
   ];
   late User _currentUser;
+  late List<User> _help;
 
   List<User> get allUsers => _allUsers;
 
@@ -22,12 +26,32 @@ class UserProvider with ChangeNotifier {
     print(name + password);
     bool valid = false;
     _allUsers.forEach((element) {
-      if(element.username == name && element.password == password){
-        valid=true;
-        _currentUser=element;
+      if (element.username == name && element.password == password) {
+        valid = true;
+        _currentUser = element;
       }
     });
     return valid;
+  }
+
+  Future<void> loadAllUser() async {
+    print('loadd');
+    final uri = Uri.parse(
+        "https://chenmessenger-default-rtdb.europe-west1.firebasedatabase.app/users.json");
+    final response = await http.get(uri);
+    final body = jsonDecode(response.body) as Map<String, dynamic>;
+    _help=body.entries.map((e) => User.fromJson(e.value)).toList();
+    print(_help);
+  }
+
+  Future<void> addUser(User user) async {
+    final uri = Uri.parse(
+        "https://chenmessenger-default-rtdb.europe-west1.firebasedatabase.app/users.json");
+    final response = await http.post(uri, body: jsonEncode(user.toJson()));
+    final body = jsonDecode(response.body);
+    user.username = body['username']; //firebase returnt IMMER name
+    _allUsers.add(user);
+    notifyListeners();
   }
 
   User get currentUser => _currentUser;

@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:messenger/domain/chat.dart';
 import 'package:messenger/domain/message.dart';
 import 'package:messenger/domain/user.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 class ChatsProvider with ChangeNotifier {
   static List<User> testUsers = [
@@ -14,42 +17,43 @@ class ChatsProvider with ChangeNotifier {
         "https://upload.wikimedia.org/wikipedia/en/5/59/Pok%C3%A9mon_Squirtle_art.png")
   ];
   List<Chat> allChats = [
-    new Chat(
-        "POS 4BHIF",
-        DateTime.now(),
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/MCM_London_2014_-_Pikachu_%2814266616051%29.jpg/330px-MCM_London_2014_-_Pikachu_%2814266616051%29.jpg",
-        [
-          new Message("content1a", DateTime.now(), testUsers[0]),
-          new Message("content2a", DateTime.now(), testUsers[1]),
-          new Message("content3a", DateTime.now(), testUsers[2]),
-          new Message(
-              "conteddddddddddddddddddddddddddddddddddddddddddddddddddddddnt1a",
-              DateTime.now(),
-              testUsers[0]),
-        ],
-        testUsers),
-    new Chat(
-        "POS 3BHIF",
-        DateTime.now(),
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/TOYOTA_ist_Pikachu_Car.jpg/330px-TOYOTA_ist_Pikachu_Car.jpg",
-        [
-          new Message("content1b", DateTime.now(), testUsers[0]),
-          new Message("content2b", DateTime.now(), testUsers[1]),
-          new Message("content3b", DateTime.now(), testUsers[1]),
-        ],
-        [
-          testUsers[0],
-          testUsers[1],
-        ]),
   ];
+
 
   void addOrRemoveUserToAChat(User user, Chat chat){
 
-    if(chat.allUsers.contains(user)){
-      chat.allUsers.remove(user);
+    if(chat.allUserNames.contains(user.username)){
+      chat.allUserNames.remove(user.username);
     }else{
-      chat.allUsers.add(user);
+      chat.allUserNames.add(user.username);
     }
     notifyListeners();
   }
+
+  late List<Chat> _help;
+  Future<void> loadAllChats() async {
+    allChats.clear();
+    print('loadddd');
+    final uri = Uri.parse(
+        "https://chenmessenger-default-rtdb.europe-west1.firebasedatabase.app/chats.json");
+    final response = await http.get(uri);
+    if(response.statusCode == 200){
+      final body = jsonDecode(response.body) as Map<String, dynamic>;
+      allChats=body
+          .entries
+          .map((entry) => Chat.fromJson(entry.value,entry.key))
+          .toList();
+    }
+  }
+  Future<void> addMessageToAChat(Message message,String chatName) async {
+    final uri = Uri.parse(
+        "https://chenmessenger-default-rtdb.europe-west1.firebasedatabase.app/chats/"+chatName+"/messages.json");
+    final response = await http.post(uri, body: jsonEncode(Message.messageToJson(message)));
+    final body = jsonDecode(response.body);
+    /*user.username = body['username']; //firebase returnt IMMER name
+    _allUsers.add(user);
+     */
+    notifyListeners();
+  }
+
 }

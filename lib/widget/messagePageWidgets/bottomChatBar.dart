@@ -22,42 +22,6 @@ class BottomChatBar extends StatefulWidget {
 class _BottomChatBarState extends State<BottomChatBar> {
   bool _showEmoji = false;
 
- /* Widget getEmoji() {
-    print('okkk');
-    return Container(
-        child: Container(
-      color: Colors.red,
-      height: 40,
-      child: EmojiPicker(
-        config: Config(
-            columns: 7,
-            verticalSpacing: 0,
-            horizontalSpacing: 0,
-            initCategory: Category.RECENT,
-            bgColor: Color(0xFFF2F2F2),
-            indicatorColor: Colors.blue,
-            iconColor: Colors.grey,
-            iconColorSelected: Colors.blue,
-            progressIndicatorColor: Colors.blue,
-            backspaceColor: Colors.blue,
-            skinToneDialogBgColor: Colors.white,
-            skinToneIndicatorColor: Colors.grey,
-            enableSkinTones: true,
-            showRecentsTab: true,
-            recentsLimit: 28,
-            noRecentsText: "No Recents",
-            noRecentsStyle:
-                const TextStyle(fontSize: 20, color: Colors.black26),
-            tabIndicatorAnimDuration: kTabScrollDuration,
-            categoryIcons: const CategoryIcons(),
-            buttonMode: ButtonMode.MATERIAL),
-        onEmojiSelected: (category, emoji) => print(emoji),
-      ),
-    ));
-  }
-
-  */
-
   @override
   Widget build(BuildContext context) {
     var messageProvider = Provider.of<ChatsProvider>(context);
@@ -102,8 +66,10 @@ class _BottomChatBarState extends State<BottomChatBar> {
                 controller: chatController,
                 onSubmitted: (value) {
                   if(value!=null && !(value.isEmpty)){
-                    widget.einzelChat.allMessages
-                        .add(new Message(value, DateTime.now(),currentUser));
+                    Provider.of<ChatsProvider>(context,listen: false).addMessageToAChat(new Message(value, DateTime.now(),currentUser.username), widget.einzelChat.chatId);
+                  /*  widget.einzelChat.allMessages
+                        .add(new Message(value, DateTime.now(),currentUser.username));
+                   */
                     chatController.clear();
                   }
                 },
